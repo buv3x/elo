@@ -1,22 +1,9 @@
 package by.bsu.orienteering.service;
 
 import by.bsu.orienteering.dao.CompetitionDAO;
-import by.bsu.orienteering.model.Gender;
-import by.bsu.orienteering.model.ParseResultsRequest;
-import by.bsu.orienteering.model.Person;
-import by.bsu.orienteering.model.PersonResult;
-import by.bsu.orienteering.model.PersonResultRequest;
-import by.bsu.orienteering.model.Result;
-import by.bsu.orienteering.model.SaveCompetitionRequest;
-import by.bsu.orienteering.model.SaveCompetitionResponse;
-import by.bsu.orienteering.model.SaveResultsRequest;
-import by.bsu.orienteering.model.Source;
+import by.bsu.orienteering.model.*;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -44,8 +31,8 @@ public class CompetitionService {
             }
         }
         SaveCompetitionResponse response = new SaveCompetitionResponse();
-        Integer id = dao.saveCompetition(competition.getCompetition());
-        response.setId(id);
+//        Integer id = dao.saveCompetition(competition.getCompetition());
+//        response.setId(id);
         response.setPersonResults(personResults);
         response.setGender(competition.getCompetition().getGender());
 
@@ -57,12 +44,14 @@ public class CompetitionService {
     @Produces(MediaType.APPLICATION_JSON)
     public void saveResults(SaveResultsRequest request) throws Exception {
         CompetitionDAO dao = new CompetitionDAO();
+        Integer id = dao.saveCompetition(request.getCompetition());
+
         for (PersonResultRequest personResult : request.getResults()) {
             Integer personId = personResult.getId() > 0 ?
                     personResult.getId() : createPerson(request, dao, personResult);
             Result result = new Result();
             result.setPersonId(personId);
-            result.setCompetitionId(request.getId());
+            result.setCompetitionId(id);
             result.setResult(personResult.getPlace());
             dao.saveResult(result);
         }
@@ -80,7 +69,7 @@ public class CompetitionService {
         Person person = new Person();
         person.setName(result.getName());
         person.setSurname(result.getSurname());
-        person.setGender(request.getGender());
+        person.setGender(request.getCompetition().getGender());
         return dao.savePerson(person);
     }
 

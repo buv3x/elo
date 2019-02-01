@@ -84,6 +84,10 @@
 </div>
 <div id="step2" style="display:none">
     <input type="hidden" id="competitionId"/>
+    <input type="hidden" id="competitionType"/>
+    <input type="hidden" id="competitionLevel"/>
+    <input type="hidden" id="competitionName"/>
+    <input type="hidden" id="competitionDate"/>
     <input type="hidden" id="competitionGender"/>
     <table id="resultsTable">
         <tr>
@@ -163,7 +167,10 @@
                 parseRequest:{data: results, source: source}}),
             contentType: "application/json; charset=utf-8",
             success: function( data ) {
-                $("#competitionId").val(data.id);
+                $("#competitionType").val(type);
+                $("#competitionLevel").val(level);
+                $("#competitionName").val(name);
+                $("#competitionDate").val(date);
                 $("#competitionGender").val(data.gender);
                 fillResultsTable(data);
                 $.get( "/elo-api/rest/competition/getPersons?gender=" + gender,
@@ -172,6 +179,9 @@
                         fillPersons();
                         $("#step2").show();
                     });
+            },
+            error: function() {
+                alert("Something went wrong");
             }
         });
     }
@@ -219,8 +229,11 @@
                 id: $(this).find('.person').first().val()};
             rows.push(rowData);
         });
-        var request = {id: $("#competitionId").val(),
-            gender: $("#competitionGender").val(),
+        var request = {competition:{type: $("#competitionType").val(),
+                level: $("#competitionLevel").val(),
+                name: $("#competitionName").val(),
+                date: $("#competitionDate").val(),
+                gender: $("#competitionGender").val()},
             results: rows};
 
         $.ajax( {

@@ -7,27 +7,9 @@ import java.util.List;
  */
 public class SaveResultsRequest {
 
-    private Integer id;
-
-    private Gender gender;
+    private Competition competition;
 
     private List<PersonResultRequest> results;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
 
     public List<PersonResultRequest> getResults() {
         return results;
@@ -35,5 +17,13 @@ public class SaveResultsRequest {
 
     public void setResults(List<PersonResultRequest> results) {
         this.results = results;
+    }
+
+    public Competition getCompetition() {
+        return competition;
+    }
+
+    public void setCompetition(Competition competition) {
+        this.competition = competition;
     }
 }
