@@ -17,6 +17,11 @@ public class Log4LimitNoFresh300Calculator extends AbstractCalculator {
     }
 
     @Override
+    protected double getFreshness(int previousFactor) {
+        return 1;
+    }
+
+    @Override
     protected double getD() {
         return D;
     }

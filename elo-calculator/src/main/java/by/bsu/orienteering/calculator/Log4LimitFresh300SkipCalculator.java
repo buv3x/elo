@@ -20,6 +20,14 @@ public class Log4LimitFresh300SkipCalculator extends AbstractCalculator {
     }
 
     @Override
+    protected double getFreshness(int previousFactor) {
+        if(!isFresh(previousFactor)) {
+            return 1;
+        }
+        return 3 - (previousFactor / 100);
+    }
+
+    @Override
     protected double getD() {
         return D;
     }

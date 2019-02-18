@@ -20,6 +20,11 @@ public class Log6NoLimitNoFresh250Calculator extends AbstractCalculator {
     }
 
     @Override
+    protected double getFreshness(int previousFactor) {
+        return 1;
+    }
+
+    @Override
     protected double getD() {
         return D;
     }

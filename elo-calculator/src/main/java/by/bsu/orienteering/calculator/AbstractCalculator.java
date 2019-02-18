@@ -24,24 +24,26 @@ public abstract class AbstractCalculator implements ICalculator {
 
             double totalRating = 0;
             double calculatedSize = 0d;
-            boolean isFresh = isFresh(calculation.getPreviousFactor());
+//            boolean isFresh = isFresh(calculation.getPreviousFactor());
+            double freshness = getFreshness(calculation.getPreviousFactor());
             for (Calculation opponentCalculation : calculationDTO.getCalculations()) {
                 if (opponentCalculation.getPersonId() == calculation.getPersonId()) {
                     continue;
                 }
 
-                boolean isOpponentFresh = !isFresh && isFresh(opponentCalculation.getPreviousFactor());
+//                boolean isOpponentFresh = isFresh(opponentCalculation.getPreviousFactor());
+                double opponentFreshness = getFreshness(opponentCalculation.getPreviousFactor());
                 double actualResult = calculateActualResult(calculation, opponentCalculation);
                 double expectedResult = calculateExpectedResult(calculation, opponentCalculation);
                 double difference = (actualResult - expectedResult);
-                calculatedSize += (isOpponentFresh ? 0.5 : 1);
-                totalRating += difference * (isOpponentFresh ? 0.5 : 1);
+                calculatedSize += (1 / opponentFreshness);
+                totalRating += difference * (1 / opponentFreshness);
             }
 
             double adjustedRating = calculateAdjusted(totalRating, calculatedSize);
 
             calculation.setNewRating(calculation.getPreviousRating() +
-                    (adjustedRating * calculationDTO.getLevel().getK() * (isFresh ? 2 : 1)));
+                    (adjustedRating * calculationDTO.getLevel().getK() * (freshness)));
             calculation.setNewFactor(calculation.getPreviousFactor() + calculationDTO.getLevel().getK());
         }
     }
@@ -51,6 +53,8 @@ public abstract class AbstractCalculator implements ICalculator {
     }
 
     protected abstract boolean isFresh(int previousFactor);
+
+    protected abstract double getFreshness(int previousFactor);
 
     protected abstract double getD();
 
