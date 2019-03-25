@@ -25,10 +25,10 @@ public class CompetitionDAO extends AbstractDAO {
     protected static final Logger logger = Logger.getLogger(CompetitionDAO.class.getName());
 
     private static String SQL_INSERT_COMPETITION =
-            "INSERT INTO competition (name, date, type, level, gender) VALUES (?, ? ,?, ?, ?)";
+            "INSERT INTO competition (name, date, type, level, gender) VALUES (?, ? ,?, ?, ?) returning id";
 
     private static String SQL_INSERT_PERSON =
-            "INSERT INTO person (name, surname, gender) VALUES (?, ? ,?)";
+            "INSERT INTO person (name, surname, gender) VALUES (?, ? ,?) returning id";
 
     private static String SQL_INSERT_RESULT =
             "INSERT INTO result (person, competition, result) VALUES (?, ? ,?)";
@@ -44,14 +44,15 @@ public class CompetitionDAO extends AbstractDAO {
         Integer result = null;
         DataSource ds = getDatasource();
         try (Connection con = ds.getConnection();
-            PreparedStatement statement = con.prepareStatement(SQL_INSERT_COMPETITION, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            PreparedStatement statement = con.prepareStatement(SQL_INSERT_COMPETITION)) {
             statement.setString(1, competition.getName());
             statement.setDate(2, new Date(competition.getDate().getTime()));
             statement.setInt(3, competition.getType().ordinal());
             statement.setInt(4, competition.getLevel().ordinal());
             statement.setInt(5, competition.getGender().ordinal());
-            statement.executeUpdate();
-            ResultSet rs = statement.getGeneratedKeys();
+//            statement.executeUpdate();
+//            ResultSet rs = statement.getGeneratedKeys();
+            ResultSet rs = statement.executeQuery();
             if(rs.next()) {
                 result = rs.getInt(1);
             }
@@ -66,12 +67,13 @@ public class CompetitionDAO extends AbstractDAO {
         Integer result = null;
         DataSource ds = getDatasource();
         try (Connection con = ds.getConnection();
-            PreparedStatement statement = con.prepareStatement(SQL_INSERT_PERSON, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            PreparedStatement statement = con.prepareStatement(SQL_INSERT_PERSON)) {
             statement.setString(1, person.getName());
             statement.setString(2, person.getSurname());
             statement.setInt(3, person.getGender().ordinal());
-            statement.executeUpdate();
-            ResultSet rs = statement.getGeneratedKeys();
+//            statement.executeUpdate();
+//            ResultSet rs = statement.getGeneratedKeys();
+            ResultSet rs = statement.executeQuery();
             if(rs.next()) {
                 result = rs.getInt(1);
             }

@@ -23,26 +23,30 @@ public class CalculationDAO extends AbstractDAO {
 
     protected static final Logger logger = Logger.getLogger(CalculationDAO.class.getName());
 
-//    private static String SQL_SELECT_CALCULATIONS =
-//            "SELECT c.level, c.type, c.date, r.person, r.result, COALESCE(l.rating,1500), COALESCE(l.total_factor,0) from competition c " +
-//                    "LEFT JOIN result r ON r.competition = c.id " +
-//                    "LEFT JOIN (SELECT distinct on (cl.person, cl.calculator, cl.type) cl.person, cl.calculator, cl.type, cl.date, cl.rating, cl.total_factor " +
-//                            "FROM calculation cl WHERE cl.calculator=? AND cl.type %s ORDER BY cl.person, cl.calculator, cl.type, cl.date desc, cl.competition desc) l " +
-//                        "ON l.person = r.person " +
-//                    "WHERE c.id = ? ";
-
     private static String SQL_SELECT_CALCULATIONS =
-            "SELECT ccl.level, ccl.type, ccl.date, rl.person, rl.result, COALESCE(cl.rating,1500), COALESCE(cl.total_factor,0), rl.id " +
-                    "FROM competition ccl " +
-                    "LEFT JOIN result rl ON ccl.id = rl.competition " +
-                    "LEFT JOIN calculation cl ON cl.id = (SELECT cl2.id " +
-                    "FROM calculation cl2 " +
-                    "INNER JOIN result rl2 ON cl2.result = rl2.id " +
-                    "INNER JOIN competition c2 ON rl2.competition = c2.id " +
-                    "WHERE rl2.person = rl.person AND cl2.calculator = ? AND cl2.type %s " +
-                    "ORDER BY c2.date desc, rl2.competition desc " +
-                    "LIMIT 1) " +
-                    "WHERE ccl.id  = ?";
+            "SELECT c.level, c.type, c.date, r.person, r.result, COALESCE(l.rating,1500), COALESCE(l.total_factor,0), r.id from competition c " +
+                    "LEFT JOIN result r ON r.competition = c.id " +
+                    "LEFT JOIN (SELECT distinct on (r.person, cl.calculator, cl.type) r.person, cl.calculator, cl.type, c.date, cl.rating, cl.total_factor " +
+                    "FROM calculation cl " +
+                    "INNER JOIN result r on r.id = cl.result " +
+                    "INNER JOIN competition c on c.id = r.competition " +
+                    "WHERE cl.calculator=? AND cl.type %s ORDER BY r.person, cl.calculator, cl.type, c.date desc, r.competition desc) l " +
+                        "ON l.person = r.person " +
+                    "WHERE c.id = ? ";
+
+//    MySQL query
+//    private static String SQL_SELECT_CALCULATIONS =
+//            "SELECT ccl.level, ccl.type, ccl.date, rl.person, rl.result, COALESCE(cl.rating,1500), COALESCE(cl.total_factor,0), rl.id " +
+//                    "FROM competition ccl " +
+//                    "LEFT JOIN result rl ON ccl.id = rl.competition " +
+//                    "LEFT JOIN calculation cl ON cl.id = (SELECT cl2.id " +
+//                    "FROM calculation cl2 " +
+//                    "INNER JOIN result rl2 ON cl2.result = rl2.id " +
+//                    "INNER JOIN competition c2 ON rl2.competition = c2.id " +
+//                    "WHERE rl2.person = rl.person AND cl2.calculator = ? AND cl2.type %s " +
+//                    "ORDER BY c2.date desc, rl2.competition desc " +
+//                    "LIMIT 1) " +
+//                    "WHERE ccl.id  = ?";
 
     private static String SQL_INSERT_CALCULATION =
             "INSERT INTO calculation (result, rating, change_rating, calculator, total_factor, factor, type) " +

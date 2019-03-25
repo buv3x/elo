@@ -25,14 +25,16 @@
         </tr>
     </table>
 </div>
-<div style="width:800px; height:800px">
+<div style="width:800px; height:800px" id="graphDiv">
     <canvas id="graph"/>
 </div>
+<div id="ratingGrid"></div>
 </body>
 <script>
 
     var id = ${id};
     var displayName;
+    var lineChart;
 
     $.get( "/elo-api/rest/core/getTypes",
             function( data ) {
@@ -43,14 +45,35 @@
                 });
             });
 
+    $("#ratingGrid").jsGrid({
+        width: "100%",
+        //height: "400px",
+        inserting: false,
+        editing: false,
+        sorting: true,
+        selecting: false,
+        paging: true,
+        filtering: false,
+        pageSize: 50,
+        fields: [
+            { name: "name", type: "text", width: 150, title:"Competition" },
+            { name: "date", type: "number", width: 150, title:"Date" },
+            { name: "type", type: "number", width: 150, title:"Type" },
+            { name: "factorChange", type: "number", width: 150, title:"Factor" },
+            { name: "rating", type: "number", width: 150, title:"Rating" },
+            { name: "ratingChange", type: "number", width: 150, title:"Change" },
+            { name: "place", type: "number", width: 150, title:"Place" },
+            { name: "placeCount", type: "number", width: 150, title:"From" }]
+    });
+
+
     $.get( '/elo-api/rest/report/getPersonName?id=' + id,
             function( data ) {
                 displayName = data;
+                initChart();
                 reloadResults('ALL');
             }, 'text'
             );
-
-
 
     function reloadResults(type) {
         var url = '/elo-api/rest/report/getPersonDetails?id=' + id;
@@ -59,43 +82,50 @@
         }
         $.get( url,
                 function( data ) {
-                    var rowData = [];
-                    var labelData = [];
-                    data.forEach(function(element) {
-                        rowData.push(element.rating);
-                        labelData.push(element.date);
+
+                    lineChart.data.labels = [];
+                    lineChart.data.datasets.forEach(function(dataset) {
+                        dataset.data = [];
                     });
 
-                    var ctx = $("#graph");
-                    var lineChart = new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            datasets: [{
-                                label: displayName,
-                                fill: false,
-                                data: rowData
-                            }],
-                            labels: labelData
-                        },
-                        options: {
-                            scales: {
-                                xAxes: [{
-                                    ticks: {
-                                        callback: function(value, index, values) {
-                                            return value.substring(0, 10);
-                                        },
-                                        stepSize: 10
-                                    }
-                                }]
-                            }
-                        }
+                    data.forEach(function(element) {
+                        lineChart.data.labels.push(element.date);
+                        lineChart.data.datasets.forEach(function(dataset) {
+                            dataset.data.push(element.rating);
+                        });
                     });
+
+                    lineChart.update();
                 });
     }
 
     function reload() {
         var type = $("#type").val();
         reloadResults(type);
+    }
+
+    function initChart() {
+        var ctx = $("#graph");
+        lineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: displayName
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            callback: function(value, index, values) {
+                                return value.substring(0, 10);
+                            },
+                            stepSize: 10
+                        }
+                    }]
+                }
+            }
+        });
     }
 
 

@@ -15,7 +15,7 @@ public class AllPersonReportDTO {
 
     private BigDecimal lastYearChange;
 
-    private int lastYearStarts;
+    private int factor;
 
     private int lastYearFactor;
 
@@ -51,12 +51,12 @@ public class AllPersonReportDTO {
         this.lastYearChange = lastYearChange;
     }
 
-    public int getLastYearStarts() {
-        return lastYearStarts;
+    public int getFactor() {
+        return factor;
     }
 
-    public void setLastYearStarts(int lastYearStarts) {
-        this.lastYearStarts = lastYearStarts;
+    public void setFactor(int factor) {
+        this.factor = factor;
     }
 
     public int getLastYearFactor() {

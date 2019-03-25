@@ -36,4 +36,5 @@ public class SaveCompetitionResponse {
     public void setGender(Gender gender) {
         this.gender = gender;
     }
+
 }

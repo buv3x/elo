@@ -61,11 +61,15 @@
         selecting: false,
         paging: true,
         filtering: false,
+        pageSize: 50,
         fields: [
-            { name: "displayName", type: "text", width: 250, title:"Name"},
+            { name: "displayName", type: "text", width: 250, title:"Name",
+                cellRenderer: function(item, value){
+                    return "<td class='jsgrid-cell' style='width:250px'><a href='/elo-view/detail/" + value.id + "'>" + item + "</a></td>";
+                }},
             { name: "rating", type: "number", width: 150, title:"Rating" },
             { name: "lastYearChange", type: "number", width: 150, title:"Last Year Change" },
-            { name: "lastYearStarts", type: "number", width: 150, title:"Last Year Starts" },
+            { name: "factor", type: "number", width: 150, title:"Total Factor" },
             { name: "lastYearFactor", type: "number", width: 150, title:"Last Year Factor" }]
     });
 

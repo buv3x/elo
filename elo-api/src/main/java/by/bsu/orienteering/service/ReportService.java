@@ -1,10 +1,7 @@
 package by.bsu.orienteering.service;
 
 import by.bsu.orienteering.dao.ReportDAO;
-import by.bsu.orienteering.model.AllPersonReportDTO;
-import by.bsu.orienteering.model.Gender;
-import by.bsu.orienteering.model.PersonReportDTO;
-import by.bsu.orienteering.model.Type;
+import by.bsu.orienteering.model.*;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -31,13 +28,30 @@ public class ReportService {
     }
 
     @GET
+    @Path("/getPersonGraphDetails")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<PersonGraphReportDTO> getPersonGraphDetails(@QueryParam("id") String id, @QueryParam("type") String typeString) throws Exception {
+        ReportDAO dao = new ReportDAO();
+        Type type = typeString != null ? Type.valueOf(typeString.toUpperCase()) : null;
+
+        List<PersonGraphReportDTO> personReport = dao.getPersonGraphReport(Integer.valueOf(id), type);
+        if(personReport.size() > 100) {
+            personReport = personReport.subList(personReport.size() - 100, personReport.size());
+        }
+
+        return personReport;
+    }
+
+    @GET
     @Path("/getPersonDetails")
     @Produces(MediaType.APPLICATION_JSON)
     public List<PersonReportDTO> getPersonDetails(@QueryParam("id") String id, @QueryParam("type") String typeString) throws Exception {
         ReportDAO dao = new ReportDAO();
         Type type = typeString != null ? Type.valueOf(typeString.toUpperCase()) : null;
 
-        return dao.getPersonReport(Integer.valueOf(id), type);
+        List<PersonReportDTO> personReport = dao.getPersonReport(Integer.valueOf(id), type);
+
+        return personReport;
     }
 
     @GET

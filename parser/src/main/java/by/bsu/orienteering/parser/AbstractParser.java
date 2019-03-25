@@ -22,7 +22,9 @@ public abstract class AbstractParser implements IParser {
 
     protected static final Logger logger = Logger.getLogger(AbstractParser.class.getName());
     private final String NR = "в/к";
-    private final Set<String> foreignCountries = new HashSet<>(Arrays.asList("UKR", "RUS", "LTU", "LAT", "GB", "USA", "MDA", "POL", "EST"));
+    private final Set<String> foreignCountries =
+            new HashSet<>();
+//            new HashSet<>(Arrays.asList("UKR", "RUS", "LTU", "LAT", "GB", "USA", "MDA", "POL", "EST"));
 
     @Override
     public List<PersonResult> parseResults(String data) {

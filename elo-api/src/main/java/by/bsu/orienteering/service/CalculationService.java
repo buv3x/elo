@@ -27,17 +27,17 @@ public class CalculationService {
     @Path("/calculateCompetition")
     @Produces(MediaType.APPLICATION_JSON)
     public boolean calculateCompetition(CalculateCompetitionRequest request) throws Exception {
-        logger.severe("Calculating " + request.getCompetitionId() + " " + request.getCalculator().name());
+//        logger.severe("Calculating " + request.getCompetitionId() + " " + request.getCalculator().name());
         CalculationDAO dao = new CalculationDAO();
         CalculationDTO calculation = dao.prepareCalculation(request.getCompetitionId(), request.getCalculator(), request.getType());
 
         ICalculator calculator = CalculatorFactory.getInstance(request.getCalculator());
         calculator.calculate(calculation);
         dao.saveCalculation(calculation);
-        logger.severe(String.format("Calculated: %d. Calculator: %s. Type: %s.",
-                request.getCompetitionId(),
-                request.getCalculator().name(),
-                request.getType() != null ? request.getType().name() : "ALL"));
+//        logger.severe(String.format("Calculated: %d. Calculator: %s. Type: %s.",
+//                request.getCompetitionId(),
+//                request.getCalculator().name(),
+//                request.getType() != null ? request.getType().name() : "ALL"));
         return true;
     }
 

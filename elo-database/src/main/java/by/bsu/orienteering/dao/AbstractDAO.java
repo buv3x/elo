@@ -13,7 +13,7 @@ public abstract class AbstractDAO {
         if ( cxt == null ) {
             throw new Exception("No context!");
         }
-        return (DataSource) cxt.lookup( "java:/comp/env/jdbc/mysql" );
+        return (DataSource) cxt.lookup( "java:/comp/env/jdbc/postgres" );
     }
 
 }

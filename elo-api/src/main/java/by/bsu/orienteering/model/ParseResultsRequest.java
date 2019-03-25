@@ -9,6 +9,8 @@ public class ParseResultsRequest {
 
     private String source;
 
+    private String token;
+
     public String getData() {
         return data;
     }
@@ -23,5 +25,13 @@ public class ParseResultsRequest {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
