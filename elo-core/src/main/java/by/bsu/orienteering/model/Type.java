@@ -5,8 +5,8 @@ package by.bsu.orienteering.model;
  */
 public enum Type {
 
-    SPRINT("Sprint"),
-    NON_SPRINT("Non-sprint");
+    SPRINT("Спринт"),
+    NON_SPRINT("Лес");
 
     private String displayName;
 

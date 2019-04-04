@@ -5,10 +5,10 @@ package by.bsu.orienteering.model;
  */
 public enum Level {
 
-    NATIONAL("National", 40),
-    BFO("Federational", 30),
-    REGIONAL("Regional", 20),
-    SUB_REGIONAL("Sub-regional", 10);
+    NATIONAL("Национальный", 40),
+    BFO("БФО", 30),
+    REGIONAL("Региональный", 20),
+    SUB_REGIONAL("Местный", 10);
 
     private String displayName;
 

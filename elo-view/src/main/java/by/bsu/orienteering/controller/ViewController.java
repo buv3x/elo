@@ -28,10 +28,26 @@ public class ViewController {
         return "rating";
     }
 
+    @RequestMapping(value = "/competitions", method = RequestMethod.GET)
+    public String competitions() {
+        return "competitions";
+    }
+
+    @RequestMapping(value = "/about", method = RequestMethod.GET)
+    public String about() {
+        return "about";
+    }
+
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable String id, ModelMap model) {
         model.addAttribute("id", id);
         return "detail";
+    }
+
+    @RequestMapping(value = "/competition/{id}", method = RequestMethod.GET)
+    public String competition(@PathVariable String id, ModelMap model) {
+        model.addAttribute("id", id);
+        return "competition";
     }
 
 }

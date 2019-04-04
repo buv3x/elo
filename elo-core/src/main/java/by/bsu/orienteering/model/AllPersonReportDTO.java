@@ -19,6 +19,8 @@ public class AllPersonReportDTO {
 
     private int lastYearFactor;
 
+    private int place;
+
     public int getId() {
         return id;
     }
@@ -65,5 +67,13 @@ public class AllPersonReportDTO {
 
     public void setLastYearFactor(int lastYearFactor) {
         this.lastYearFactor = lastYearFactor;
+    }
+
+    public int getPlace() {
+        return place;
+    }
+
+    public void setPlace(int place) {
+        this.place = place;
     }
 }

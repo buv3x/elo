@@ -5,8 +5,8 @@ package by.bsu.orienteering.model;
  */
 public enum Gender {
 
-    MEN("Men"),
-    WOMEN("Women");
+    MEN("Мужчины"),
+    WOMEN("Женщины");
 
     private String displayName;
 

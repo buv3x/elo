@@ -1,0 +1,31 @@
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+table.list {border-collapse: collapse; border: 1px solid black;}
+table.list th, table.list td {border: 1px solid black; text-align:center}
+
+ul.elo-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li.elo-menu-item {
+    float: left;
+}
+
+li.elo-menu-item a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li.elo-menu-item a:hover {
+    color: orange;
+}
+
+li.elo-menu-item a.active {
+    background-color: #217F27;
+}
